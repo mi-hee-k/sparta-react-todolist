@@ -35,10 +35,25 @@ function App() {
     });
   };
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const newTodo = {
+      id: todos.length,
+      title: inputs.title,
+      body: inputs.body,
+      isDone: false,
+    };
+    setTodos([...todos, newTodo]);
+    setInputs({
+      title: '',
+      body: '',
+    });
+  };
+
   return (
     <div className='App'>
       <h1>My Todo List</h1>
-      <form>
+      <form onSubmit={submitHandler}>
         <label htmlFor='title'>제목</label>
         <input
           type='text'
