@@ -54,6 +54,17 @@ function App() {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          todo.isDone = !todo.isDone;
+        }
+        return todo;
+      })
+    );
+  };
+
   return (
     <div className='App'>
       <h1>My Todo List</h1>
@@ -84,7 +95,7 @@ function App() {
                 <h3>{todo.title}</h3>
                 <p>{todo.body}</p>
                 <button onClick={() => deleteTodo(todo.id)}>삭제하기</button>
-                <button>완료</button>
+                <button onClick={() => toggleTodo(todo.id)}>완료</button>
               </div>
             );
           }
@@ -100,7 +111,7 @@ function App() {
                 <h3>{todo.title}</h3>
                 <p>{todo.body}</p>
                 <button onClick={() => deleteTodo(todo.id)}>삭제하기</button>
-                <button>완료</button>
+                <button onClick={() => toggleTodo(todo.id)}>취소</button>
               </div>
             );
           }
