@@ -8,14 +8,16 @@ const TodoList = ({ todos, deleteTodo, toggleTodo, title, isDone }) => {
   return (
     <section>
       <h2>{title}</h2>
-      {filteredTodos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          deleteTodo={deleteTodo}
-          toggleTodo={toggleTodo}
-        />
-      ))}
+      <div className='todo-group'>
+        {filteredTodos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            deleteTodo={deleteTodo}
+            toggleTodo={toggleTodo}
+          />
+        ))}
+      </div>
     </section>
   );
 };
