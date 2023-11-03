@@ -2,6 +2,11 @@ import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [inputs, setInputs] = useState({
+    title: '',
+    body: '',
+  });
+
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -22,14 +27,32 @@ function App() {
       isDone: true,
     },
   ]);
+
+  const inputChangeHandler = (e) => {
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <div className='App'>
       <h1>My Todo List</h1>
       <form>
         <label htmlFor='title'>제목</label>
-        <input type='text' />
+        <input
+          type='text'
+          name='title'
+          value={inputs.title}
+          onChange={inputChangeHandler}
+        />
         <label htmlFor='body'>내용</label>
-        <input type='text' />
+        <input
+          type='text'
+          name='body'
+          value={inputs.body}
+          onChange={inputChangeHandler}
+        />
         <button>추가</button>
       </form>
 
