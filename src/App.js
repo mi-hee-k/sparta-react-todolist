@@ -1,5 +1,8 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
+import AddTodo from './components/AddTodo';
+import TodoList from './components/TodoList';
 
 function App() {
   const [inputs, setInputs] = useState({
@@ -7,26 +10,7 @@ function App() {
     body: '',
   });
 
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: '리액트1',
-      body: '내용1',
-      isDone: false,
-    },
-    {
-      id: 2,
-      title: '리액트2',
-      body: '내용2',
-      isDone: false,
-    },
-    {
-      id: 3,
-      title: '리액트3',
-      body: '내용3',
-      isDone: true,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
 
   const inputChangeHandler = (e) => {
     setInputs({
@@ -38,12 +22,12 @@ function App() {
   const submitHandler = (e) => {
     e.preventDefault();
     const newTodo = {
-      id: todos.length,
+      id: uuidv4(),
       title: inputs.title,
       body: inputs.body,
       isDone: false,
     };
-    setTodos([...todos, newTodo]);
+    setTodos([newTodo, ...todos]);
     setInputs({
       title: '',
       body: '',
@@ -68,55 +52,27 @@ function App() {
   return (
     <div className='App'>
       <h1>My Todo List</h1>
-      <form onSubmit={submitHandler}>
-        <label htmlFor='title'>제목</label>
-        <input
-          type='text'
-          name='title'
-          value={inputs.title}
-          onChange={inputChangeHandler}
-        />
-        <label htmlFor='body'>내용</label>
-        <input
-          type='text'
-          name='body'
-          value={inputs.body}
-          onChange={inputChangeHandler}
-        />
-        <button>추가</button>
-      </form>
+      <AddTodo
+        inputs={inputs}
+        submitHandler={submitHandler}
+        inputChangeHandler={inputChangeHandler}
+      />
 
-      <section>
-        <h2>Working... 🔥</h2>
-        {todos.map((todo) => {
-          if (!todo.isDone) {
-            return (
-              <div key={todo.id}>
-                <h3>{todo.title}</h3>
-                <p>{todo.body}</p>
-                <button onClick={() => deleteTodo(todo.id)}>삭제하기</button>
-                <button onClick={() => toggleTodo(todo.id)}>완료</button>
-              </div>
-            );
-          }
-        })}
-      </section>
+      <TodoList
+        todos={todos}
+        deleteTodo={deleteTodo}
+        toggleTodo={toggleTodo}
+        title='Working... 🔥'
+        isDone={false}
+      />
 
-      <section>
-        <h2>Done..! 🎉</h2>
-        {todos.map((todo) => {
-          if (todo.isDone) {
-            return (
-              <div key={todo.id}>
-                <h3>{todo.title}</h3>
-                <p>{todo.body}</p>
-                <button onClick={() => deleteTodo(todo.id)}>삭제하기</button>
-                <button onClick={() => toggleTodo(todo.id)}>취소</button>
-              </div>
-            );
-          }
-        })}
-      </section>
+      <TodoList
+        todos={todos}
+        deleteTodo={deleteTodo}
+        toggleTodo={toggleTodo}
+        title='Done...! 🎉'
+        isDone={true}
+      />
     </div>
   );
 }
