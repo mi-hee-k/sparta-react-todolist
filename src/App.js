@@ -50,6 +50,10 @@ function App() {
     });
   };
 
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div className='App'>
       <h1>My Todo List</h1>
@@ -79,7 +83,7 @@ function App() {
               <div key={todo.id}>
                 <h3>{todo.title}</h3>
                 <p>{todo.body}</p>
-                <button>삭제하기</button>
+                <button onClick={() => deleteTodo(todo.id)}>삭제하기</button>
                 <button>완료</button>
               </div>
             );
@@ -95,7 +99,7 @@ function App() {
               <div key={todo.id}>
                 <h3>{todo.title}</h3>
                 <p>{todo.body}</p>
-                <button>삭제하기</button>
+                <button onClick={() => deleteTodo(todo.id)}>삭제하기</button>
                 <button>완료</button>
               </div>
             );
