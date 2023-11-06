@@ -4,6 +4,7 @@ import './App.css';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 import ProgressBar from './components/ProgressBar';
+import ClearAll from './components/ClearAll';
 
 function App() {
   const [validationMsg, setValidationMsg] = useState(false);
@@ -93,11 +94,8 @@ function App() {
         title='Done...! 🎉'
         isDone={true}
       />
-      <div className='clear-btn-group'>
-        <button className='btn clear-btn' onClick={clearTodo}>
-          모두 지우기
-        </button>
-      </div>
+
+      <ClearAll clearTodo={clearTodo} />
     </div>
   );
 }
