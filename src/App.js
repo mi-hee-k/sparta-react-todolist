@@ -3,14 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
+import ProgressBar from './components/ProgressBar';
 
 function App() {
+  const [validationMsg, setValidationMsg] = useState(false);
+  const [todos, setTodos] = useState([]);
   const [inputs, setInputs] = useState({
     title: '',
     body: '',
   });
-
-  const [todos, setTodos] = useState([]);
 
   const inputChangeHandler = (e) => {
     setInputs({
@@ -21,6 +22,10 @@ function App() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (inputs.title.length === 0 || inputs.body.length === 0) {
+      setValidationMsg(true);
+      return;
+    }
     const newTodo = {
       id: uuidv4(),
       title: inputs.title,
@@ -32,10 +37,7 @@ function App() {
       title: '',
       body: '',
     });
-  };
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setValidationMsg(false);
   };
 
   const toggleTodo = (id) => {
@@ -49,6 +51,21 @@ function App() {
     );
   };
 
+  const deleteTodo = (id) => {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    }
+  };
+
+  const clearTodo = () => {
+    setTodos([]);
+  };
+
+  const percentTodo = () => {
+    const todosPercent = todos.filter((todo) => todo.isDone).length;
+    return todos.length ? ((todosPercent / todos.length) * 100).toFixed(2) : 0;
+  };
+
   return (
     <div className='App'>
       <h1>My Todo List</h1>
@@ -56,7 +73,10 @@ function App() {
         inputs={inputs}
         submitHandler={submitHandler}
         inputChangeHandler={inputChangeHandler}
+        validationMsg={validationMsg}
       />
+
+      <ProgressBar percentTodo={percentTodo} />
 
       <TodoList
         todos={todos}
@@ -73,6 +93,11 @@ function App() {
         title='Done...! 🎉'
         isDone={true}
       />
+      <div className='clear-btn-group'>
+        <button className='btn clear-btn' onClick={clearTodo}>
+          모두 지우기
+        </button>
+      </div>
     </div>
   );
 }
