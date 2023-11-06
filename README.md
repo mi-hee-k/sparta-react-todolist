@@ -1,3 +1,4 @@
+# 파일구조
 ```
 todolist
 ├─ src
@@ -10,6 +11,6 @@ todolist
 │  │  ├─ TodoItem.jsx
 │  │  └─ TodoList.jsx
 │  ├─ index.css
-│  └─ index.js
+└─ └─ index.js
 
 ```
